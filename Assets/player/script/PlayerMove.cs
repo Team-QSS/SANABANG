@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using weapons.Silk;
 
 namespace player.script
 {
@@ -36,9 +37,12 @@ namespace player.script
         private static readonly int IsJumping = Animator.StringToHash("isjumping");
         private static readonly int XVelocity = Animator.StringToHash("xVelocity");
 
+        public Silk Silk;
+
         // Start is called before the first frame update
         private void Start()
         {
+            Silk = gameObject.GetComponent<Silk>();
             playerAnim = GetComponent<Animator>();
             tr.emitting = false;
             stunned = false;
@@ -48,9 +52,14 @@ namespace player.script
         {
             if (!stunned) horizontal = Input.GetAxisRaw("Horizontal");
 
-            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && !Input.GetKey(KeyCode.S)) rb.velocity = new Vector2(rb.velocity.x,jumpingPower*2);
-            if (Input.GetKeyDown(KeyCode.Space) && IsOnPlatform() && !Input.GetKey(KeyCode.S)) rb.velocity = new Vector2(rb.velocity.x, jumpingPower*2);
-        
+            if ((IsGrounded() || IsOnPlatform()))
+            {
+                if (Silk.silkGauge != 6)
+                {
+                    Silk.Fill();
+                }
+                if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S)) rb.velocity = new Vector2(rb.velocity.x,jumpingPower*2);
+            }
             if (Input.GetKeyDown(KeyCode.Space) && rb.velocity.y > 0f)
             {
                 //rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
@@ -59,15 +68,6 @@ namespace player.script
             else playerAnim.SetBool(IsJumping,false);
 
             if (Input.GetKeyDown(KeyCode.LeftShift)&&canDash) StartCoroutine(Dash());
-
-            if (Input.GetKey(KeyCode.S)&&Input.GetKeyDown(KeyCode.Space))
-            {
-                if (IsOnPlatform())
-                {
-                    bcd2.isTrigger = true;
-                    Invoke(nameof(FallPlatform),0.5f);
-                }
-            }
 
             if (horizontal > 0 && !isFacingRight) Flip();
             if (horizontal < 0 && isFacingRight) Flip();
@@ -79,17 +79,16 @@ namespace player.script
             if (isDashing||stunned) return;
             rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
             playerAnim.SetFloat(XVelocity, Mathf.Abs(rb.velocity.x));
-
         }
 
-        private bool IsGrounded()
+        public bool IsGrounded()
         {
-            return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+            return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer) is not null;
         }
 
-        private bool IsOnPlatform()
+        public bool IsOnPlatform()
         {
-            return Physics2D.OverlapCircle(platformCheck.position, 0.2f, platformLayer);
+            return Physics2D.OverlapCircle(platformCheck.position, 0.2f, platformLayer) is not null;
         }
 
         private void Flip()

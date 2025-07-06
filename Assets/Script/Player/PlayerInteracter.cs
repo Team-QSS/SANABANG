@@ -13,7 +13,6 @@ public class PlayerInteracter : HalfSingleMono<PlayerInteracter>
     {
         if (collision.collider.GetComponent<CustomTagger>().tags.HasFlag(Tags.Ground))
         {
-            Debug.Log("!");
             onLand?.Invoke();
         }
     }

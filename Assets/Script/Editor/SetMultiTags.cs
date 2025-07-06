@@ -19,7 +19,6 @@ public static class AutoComponentInjector
             if (go.GetComponent<CustomTagger>() == null)
             {
                 Undo.AddComponent<CustomTagger>(go);
-                Debug.Log($"[AutoAttach] {go.name}에 YourComponent 자동 추가됨");
             }
         }
     }

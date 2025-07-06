@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 1188760560}
   - component: {fileID: 1188760561}
   - component: {fileID: 1188760562}
+  - component: {fileID: 1188760563}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -554,7 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  jumpPower: 0.08
+  jumpPower: 6
   rb2D: {fileID: 1188760556}
 --- !u!114 &1188760554
 MonoBehaviour:
@@ -602,7 +603,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.045385838, y: -1.0962219}
+  m_Offset: {x: -0.045385838, y: -1.1079752}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -612,7 +613,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5055916, y: 0.25112355}
+  m_Size: {x: 1.5055916, y: 0.21240473}
   m_EdgeRadius: 0
 --- !u!50 &1188760556
 Rigidbody2D:
@@ -629,7 +630,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -640,7 +641,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &1188760557
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -737,6 +738,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behavior: 0
+  ani: {fileID: 1188760563}
+  sr: {fileID: 1188760557}
 --- !u!61 &1188760561
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -771,7 +774,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.04412335, y: 0.21043444}
+  m_Offset: {x: -0.04412335, y: -0.09553176}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -781,7 +784,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5097381, y: 2.7791314}
+  m_Size: {x: 1.5097381, y: 2.267838}
   m_EdgeRadius: 0
 --- !u!114 &1188760562
 MonoBehaviour:
@@ -795,6 +798,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9515a3f2e0f5b8e4bb5deb9f22967a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1188760563
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188760552}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 00c33b8d7284be8488580c52b1dd4ca4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

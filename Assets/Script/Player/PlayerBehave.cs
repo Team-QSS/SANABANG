@@ -8,8 +8,9 @@ public enum PlayerBehaviors
     Silking,
 }
 
-public class PlayerBehave : MonoBehaviour
+public class PlayerBehave : HalfSingleMono<PlayerBehave>
 {
+    [SerializeField] private PlayerBehaviors behavior;
     void Start()
     {
         
@@ -17,5 +18,17 @@ public class PlayerBehave : MonoBehaviour
     void Update()
     {
         
+    }
+    public void SetPlayerBehave(PlayerBehaviors playerBehaviors)
+    {
+        behavior = playerBehaviors;
+    }
+    public bool ComparePlayerBehave(PlayerBehaviors playerBehave)
+    {
+        if(behavior == playerBehave)
+        {
+            return true;
+        }
+        return false;
     }
 }

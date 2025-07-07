@@ -1,6 +1,6 @@
-using Unity.VisualScripting;
+using System;
+using System.Data.Common;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public enum SilkStatus
 {
@@ -12,8 +12,11 @@ public enum SilkStatus
 
 public class SilkThrower : HalfSingleMono<SilkThrower>
 {
+    public event Action<bool> silking;
+    [SerializeField] private LayerMask masks;
     private PlayerStatus playerStatus;
     private GameObject _attachedObj;
+    private Vector2 _hookPoint;
     public GameObject AttachedObj
     {
         get => _attachedObj;
@@ -25,6 +28,7 @@ public class SilkThrower : HalfSingleMono<SilkThrower>
     void Start()
     {
         playerStatus = PlayerStatus.Instance;
+        silking += PlayerBehave.Instance.SetSilking;
     }
 
     void Update()
@@ -36,7 +40,7 @@ public class SilkThrower : HalfSingleMono<SilkThrower>
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 throwDir = (mouseWorldPos - transform.position).normalized;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, throwDir, playerStatus.PlayerSilkRange);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, throwDir, playerStatus.PlayerSilkRange,masks);
 
         if (hit.collider != null)
         {
@@ -45,7 +49,10 @@ public class SilkThrower : HalfSingleMono<SilkThrower>
 
             if (tagger != null && (tagger.tags & validTags) != 0)
             {
+                Debug.Log(hit.collider.name);
                 AttachedObj = hit.collider.gameObject;
+                _hookPoint = hit.point;
+                silking?.Invoke(true);
             }
         }
         else
@@ -55,11 +62,26 @@ public class SilkThrower : HalfSingleMono<SilkThrower>
     }
     public void SilkRelease()
     {
+        silking?.Invoke(false);
         AttachedObj = null;
     }
-    public Vector2 GetDirectionFromPlayer()
+    public Vector2 GetHookPoint()
     {
-        return (AttachedObj.transform.position - gameObject.transform.position).normalized;
+        return _hookPoint;
+    }
+    public bool IsPlayerDown()
+    {
+        if (gameObject.transform.position.y > AttachedObj.transform.position.y)
+        {
+            return false;
+        }
+        return true;
+    }
+    public float GetRotation()
+    {
+        var dir = AttachedObj.transform.position - gameObject.transform.position;
+        var angle = Mathf.Atan2(dir.y, dir.x)*Mathf.Rad2Deg;
+        return angle-90f;
     }
 
 }

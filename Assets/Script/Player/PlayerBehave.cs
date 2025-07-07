@@ -7,11 +7,19 @@ public enum PlayerBehaviors
     Run,
     Jump,
     Land,
-    Silking,
 }
 
 public class PlayerBehave : HalfSingleMono<PlayerBehave>
 {
+   [SerializeField] private bool _isSilking;
+    public bool IsSilking
+    {
+        get => _isSilking;
+        set
+        {
+            _isSilking = value;
+        }
+    }
     [SerializeField] private PlayerBehaviors behavior;
     [SerializeField] private Animator ani;
     [SerializeField] private SpriteRenderer sr;
@@ -39,19 +47,27 @@ public class PlayerBehave : HalfSingleMono<PlayerBehave>
     public void SetPlayerBehave(PlayerBehaviors playerBehaviors)
     {
         if (behavior == playerBehaviors) return;
-        behavior = playerBehaviors;
-        switch (playerBehaviors)
+        if (!IsSilking)
         {
-            case PlayerBehaviors.Jump:
-                ani.SetTrigger("Jump");
-                break;
-            case PlayerBehaviors.Land:
-                ani.SetTrigger("Land");
-                break;
-            default:
-                ani.SetInteger("Behave", (int)behavior);
-                break;
+            behavior = playerBehaviors;
+            switch (playerBehaviors)
+            {
+                case PlayerBehaviors.Jump:
+                    ani.SetTrigger("Jump");
+                    break;
+                case PlayerBehaviors.Land:
+                    ani.SetTrigger("Land");
+                    break;
+                default:
+                    ani.SetInteger("Behave", (int)behavior);
+                    break;
+            }
         }
+        else
+        {
+            ani.SetTrigger("Jump");
+        }
+
     }
     public bool ComparePlayerBehave(PlayerBehaviors playerBehave)
     {
@@ -65,4 +81,34 @@ public class PlayerBehave : HalfSingleMono<PlayerBehave>
     {
         IsFacingRight = flip;
     } 
+    public void SetAnimationTrigger(string key)
+    {
+        if (HasAnimationParam(key))
+        {
+            ani.SetTrigger(key);
+        }
+    }
+    private bool HasAnimationParam(string key)
+    {
+        foreach (var param in ani.parameters)
+        {
+            if (param.name == key)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void ForceSetAnimation(string key) 
+    {
+        ani.Play(key);
+    }
+    public void SetSilking(bool val)
+    {
+        IsSilking = val;
+    }
+    public bool CheckIsSilking()
+    {
+        return IsSilking;
+    }
 }

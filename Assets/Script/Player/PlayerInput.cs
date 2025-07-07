@@ -25,6 +25,8 @@ public class PlayerInput : HalfSingleMono<PlayerInput>
         moveX += PlayerMove.Instance.SetVelocityX;
         jump += PlayerMove.Instance.Jump;
         flip += PlayerBehave.Instance.ChangeDir;
+        throwSilk += SilkThrower.Instance.SilkThrow;
+        returnSilk += SilkThrower.Instance.SilkRelease;
     }
 
     void Update()
@@ -85,6 +87,10 @@ public class PlayerInput : HalfSingleMono<PlayerInput>
         isJumping = false;
         currentJumpingTime = maxJumpTime;
     }
+    public void DisableJump()
+    {
+        isGrounded = false;
+    }
 
     public void ThrowSilk()
     {
@@ -107,6 +113,8 @@ public class PlayerInput : HalfSingleMono<PlayerInput>
         if (Input.GetMouseButtonDown(0)) ThrowSilk();
         if (Input.GetMouseButtonUp(0)) ReturnSilk();
 
+        MoveX(dir);
+
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             jumpRequested = true;
@@ -117,6 +125,9 @@ public class PlayerInput : HalfSingleMono<PlayerInput>
             isJumping = false;
         }
 
-        MoveX(dir);
+    }
+    public bool IsGrounded()
+    {
+        return isGrounded;
     }
 }

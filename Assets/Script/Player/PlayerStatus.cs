@@ -6,7 +6,7 @@ public class PlayerStatus :HalfSingleMono<PlayerStatus>
     public float PlayerSilkRange;
     void Start()
     {
-        
+        PlayerSilkRange = 10f;
     }
 
     void Update()

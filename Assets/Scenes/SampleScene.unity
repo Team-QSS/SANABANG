@@ -947,7 +947,8 @@ MonoBehaviour:
   jumpPower: 6
   gavityScale: 3
   rb2D: {fileID: 1188760556}
-  rotateSpeed: 3
+  swingForce: 5
+  swingDamping: 0.8
 --- !u!114 &1188760554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,9 +1030,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!212 &1188760557
 SpriteRenderer:
@@ -1228,6 +1229,8 @@ MonoBehaviour:
   masks:
     serializedVersion: 2
     m_Bits: 1
+  ropePrefab: {fileID: 2378292312813150123, guid: 2ce365dc0e2cd0d4ba29f07de15fbec6, type: 3}
+  maxRopeDistance: 15
 --- !u!1 &1343038824
 GameObject:
   m_ObjectHideFlags: 0
